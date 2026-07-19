@@ -8,46 +8,43 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
       --cyan: #0ff;
       --pink: #f0f;
       --green: #0f0;
       --red: #ff3366;
+      --yellow: #ff0;
     }
 
     body {
       font-family: 'Roboto', sans-serif;
-      background: #0a0a1a;
+      background: #050510;
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      padding: 10px;
+      padding: 8px;
+      overflow: hidden;
     }
 
     .game {
       width: 100%;
-      max-width: 750px;
-      height: 90vh;
-      max-height: 800px;
-      background: #111;
+      max-width: 800px;
+      height: 92vh;
+      max-height: 850px;
+      background: #0a0a1a;
       border: 3px solid var(--cyan);
-      border-radius: 30px;
-      box-shadow: 0 0 40px rgba(0,255,255,0.6);
+      border-radius: 25px;
+      box-shadow: 0 0 50px rgba(0,255,255,0.5), inset 0 0 30px rgba(0,0,0,0.8);
       display: flex;
       flex-direction: column;
       position: relative;
       overflow: hidden;
     }
 
-    /* Звёзды */
-    #stars {
+    #starCanvas {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
@@ -55,125 +52,126 @@
       z-index: 0;
     }
 
-    /* Верхняя панель */
-    .top-bar {
-      z-index: 10;
+    /* ВЕРХНЯЯ ПАНЕЛЬ */
+    .hud {
+      z-index: 20;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 18px;
-      background: rgba(0,0,0,0.85);
+      padding: 8px 14px;
+      background: rgba(0,0,0,0.9);
       border-bottom: 2px solid var(--cyan);
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 6px;
     }
-    .freedom-box {
+    .freedom-wrap {
       display: flex;
       align-items: center;
-      gap: 8px;
-      flex: 1;
-      min-width: 150px;
+      gap: 6px;
+      flex: 2;
+      min-width: 130px;
     }
-    .freedom-text {
+    .freedom-label {
       font-family: 'Press Start 2P', cursive;
-      font-size: 0.55rem;
+      font-size: 0.5rem;
       color: var(--cyan);
       white-space: nowrap;
     }
-    .bar-outer {
+    .bar-bg {
       flex: 1;
-      height: 16px;
-      background: #222;
+      height: 14px;
+      background: #1a1a1a;
       border: 1px solid var(--pink);
       border-radius: 20px;
       overflow: hidden;
     }
-    .bar-inner {
+    .bar-fill {
       width: 0%;
       height: 100%;
       background: linear-gradient(90deg, var(--green), var(--cyan));
       transition: width 0.3s;
+      box-shadow: 0 0 10px var(--green);
     }
-    .hearts-box {
+    .hp {
       display: flex;
-      gap: 4px;
-      font-size: 1.4rem;
+      gap: 2px;
+      font-size: 1.3rem;
     }
-    .score-box {
+    .score {
       font-family: 'Press Start 2P', cursive;
-      font-size: 0.5rem;
+      font-size: 0.45rem;
       color: var(--cyan);
       background: #000;
-      padding: 6px 12px;
-      border-radius: 20px;
+      padding: 5px 10px;
+      border-radius: 15px;
       border: 1px solid var(--pink);
       white-space: nowrap;
     }
 
-    /* Экран */
+    /* ЭКРАНЫ */
     .screen {
-      z-index: 5;
+      z-index: 10;
       flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 15px;
+      padding: 12px;
       text-align: center;
+      position: relative;
     }
     .screen.hidden {
       display: none !important;
     }
 
-    /* Бот Навального */
+    /* БОТ */
     .bot {
       position: absolute;
-      bottom: 15px;
-      left: 15px;
-      z-index: 20;
+      bottom: 10px;
+      left: 10px;
+      z-index: 30;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       background: rgba(0,30,30,0.9);
-      padding: 8px 16px;
-      border-radius: 30px;
+      padding: 6px 12px;
+      border-radius: 25px;
       border: 1px solid var(--green);
-      box-shadow: 0 0 15px rgba(0,255,0,0.5);
-      max-width: 75%;
+      box-shadow: 0 0 12px rgba(0,255,0,0.5);
+      max-width: 70%;
       animation: float 3s infinite alternate;
     }
     @keyframes float {
       from { transform: translateY(0); }
-      to { transform: translateY(-6px); }
+      to { transform: translateY(-5px); }
     }
     .bot-avatar {
-      font-size: 2rem;
-      filter: drop-shadow(0 0 6px var(--green));
+      font-size: 1.8rem;
       flex-shrink: 0;
     }
     .bot-text {
       font-family: 'Press Start 2P', cursive;
-      font-size: 0.5rem;
+      font-size: 0.4rem;
       color: #b5ffb5;
-      line-height: 1.5;
+      line-height: 1.4;
       word-break: break-word;
     }
 
-    /* Кнопки */
+    /* КНОПКИ */
     .btn {
-      background: rgba(0,0,0,0.7);
+      background: rgba(0,0,0,0.8);
       border: 2px solid var(--pink);
       color: var(--pink);
       font-family: 'Press Start 2P', cursive;
-      font-size: 0.65rem;
-      padding: 14px 24px;
-      border-radius: 40px;
+      font-size: 0.6rem;
+      padding: 12px 20px;
+      border-radius: 30px;
       cursor: pointer;
       transition: 0.2s;
-      margin: 10px;
+      margin: 8px;
       text-transform: uppercase;
       letter-spacing: 1px;
-      box-shadow: 0 0 12px var(--pink);
+      box-shadow: 0 0 12px rgba(255,0,255,0.5);
       word-break: break-word;
       max-width: 90%;
     }
@@ -183,549 +181,659 @@
       box-shadow: 0 0 25px var(--pink);
     }
     .btn:active {
-      transform: scale(0.94);
-    }
-    .btn.small {
-      font-size: 0.55rem;
-      padding: 10px 16px;
+      transform: scale(0.93);
     }
 
-    /* Карточки заданий */
-    .cards {
+    /* ВЫБОР ВОЗРАСТА */
+    .age-buttons {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 12px;
-      margin: 10px 0;
-      max-width: 100%;
+      margin: 15px 0;
+    }
+    .age-btn {
+      background: #111;
+      border: 2px solid var(--yellow);
+      color: var(--yellow);
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.7rem;
+      padding: 15px 25px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 0 10px rgba(255,255,0,0.4);
+    }
+    .age-btn:hover {
+      background: var(--yellow);
+      color: #000;
+      box-shadow: 0 0 20px var(--yellow);
+    }
+
+    /* ИГРОВОЕ ПОЛЕ */
+    .play-field {
+      width: 100%;
+      height: 70%;
+      position: relative;
+      background: rgba(0,0,30,0.5);
+      border: 2px solid var(--cyan);
+      border-radius: 15px;
+      overflow: hidden;
+      cursor: pointer;
+      touch-action: none;
+    }
+    .player {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      font-size: 2rem;
+      transform: translate(-50%, -50%);
+      transition: left 0.05s, top 0.05s;
+      pointer-events: none;
+      z-index: 15;
+      filter: drop-shadow(0 0 10px var(--cyan));
+    }
+    .item {
+      position: absolute;
+      font-size: 1.5rem;
+      transform: translate(-50%, -50%);
+      animation: pulse 1s infinite alternate;
+      pointer-events: none;
+      z-index: 12;
+    }
+    @keyframes pulse {
+      from { transform: translate(-50%, -50%) scale(1); }
+      to { transform: translate(-50%, -50%) scale(1.2); }
+    }
+    .enemy {
+      position: absolute;
+      font-size: 1.5rem;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 11;
+    }
+
+    /* ТАЙМЕР */
+    .timer {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 1rem;
+      color: var(--pink);
+      margin: 5px 0;
+    }
+
+    /* БОСС */
+    .boss-sprite {
+      font-size: 4rem;
+      cursor: pointer;
+      animation: glitch 0.3s infinite;
+      user-select: none;
+    }
+    @keyframes glitch {
+      0%,100%{transform:translate(0)}
+      20%{transform:translate(-2px,2px)}
+      40%{transform:translate(2px,-2px)}
+      60%{transform:translate(-2px,-2px)}
+      80%{transform:translate(2px,2px)}
+    }
+
+    /* КАРТОЧКИ */
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 8px 0;
     }
     .card {
       background: #1a1a2e;
       border: 2px solid var(--cyan);
-      border-radius: 18px;
-      padding: 12px 14px;
+      border-radius: 15px;
+      padding: 10px 12px;
       cursor: pointer;
-      transition: 0.2s;
       font-family: 'Press Start 2P', cursive;
-      font-size: 0.55rem;
+      font-size: 0.5rem;
       color: var(--cyan);
-      box-shadow: 0 0 10px rgba(0,255,255,0.4);
+      box-shadow: 0 0 8px rgba(0,255,255,0.3);
       text-align: center;
-      min-width: 100px;
-      max-width: 180px;
+      min-width: 80px;
       word-break: break-word;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex: 1;
+      transition: 0.2s;
     }
     .card:hover {
-      background: #0a2a3a;
       border-color: var(--pink);
       color: var(--pink);
     }
-    .card.correct {
+    .card.ok {
       background: #0a3a0a !important;
       border-color: var(--green) !important;
       color: var(--green) !important;
-      box-shadow: 0 0 20px var(--green) !important;
     }
-    .card.wrong {
+    .card.bad {
       background: #3a0a0a !important;
       border-color: red !important;
       color: red !important;
     }
 
-    /* Ввод ключа */
-    .key-input {
-      background: #000;
-      border: 2px solid var(--cyan);
-      color: var(--cyan);
-      font-family: 'Press Start 2P', cursive;
-      font-size: 0.7rem;
-      padding: 12px 16px;
-      border-radius: 30px;
-      text-align: center;
-      width: 80%;
-      max-width: 350px;
-      margin: 10px 0;
-      outline: none;
-      letter-spacing: 3px;
-    }
-    .key-input::placeholder {
-      color: #333;
-      font-size: 0.5rem;
-      letter-spacing: 1px;
-    }
-
-    .timer {
-      font-family: 'Press Start 2P', cursive;
-      font-size: 1.1rem;
-      color: var(--pink);
-      margin: 8px 0;
-    }
-
-    /* Босс */
-    .boss {
-      font-size: 4rem;
-      animation: glitch 0.3s infinite;
-      cursor: pointer;
-      user-select: none;
-    }
-    @keyframes glitch {
-      0%, 100% { transform: translate(0); }
-      20% { transform: translate(-3px, 2px); }
-      40% { transform: translate(3px, -2px); }
-      60% { transform: translate(-2px, -3px); }
-      80% { transform: translate(2px, 3px); }
-    }
-
-    /* Адаптив */
     @media (max-width: 500px) {
-      .btn { font-size: 0.55rem; padding: 10px 16px; }
-      .card { font-size: 0.45rem; padding: 10px; min-width: 70px; }
-      .bot-text { font-size: 0.4rem; }
-      .freedom-text { font-size: 0.45rem; }
-      .key-input { font-size: 0.6rem; padding: 10px; }
+      .btn { font-size: 0.5rem; padding: 10px 14px; }
+      .card { font-size: 0.4rem; padding: 8px; min-width: 60px; }
+      .bot-text { font-size: 0.35rem; }
+      .player { width: 30px; height: 30px; font-size: 1.5rem; }
+      .item, .enemy { font-size: 1.2rem; }
     }
   </style>
 </head>
 <body>
 <div class="game" id="gameContainer">
-  <canvas id="stars"></canvas>
+  <canvas id="starCanvas"></canvas>
 
   <!-- HUD -->
-  <div class="top-bar">
-    <div class="freedom-box">
-      <span class="freedom-text">СВОБОДА</span>
-      <div class="bar-outer"><div class="bar-inner" id="freedomBar"></div></div>
+  <div class="hud">
+    <div class="freedom-wrap">
+      <span class="freedom-label">СВОБОДА</span>
+      <div class="bar-bg"><div class="bar-fill" id="freedomBar"></div></div>
     </div>
-    <div class="hearts-box" id="hearts">❤️❤️❤️❤️❤️</div>
-    <div class="score-box" id="score">Пройдено: 0</div>
+    <div class="hp" id="hp">❤️❤️❤️❤️❤️</div>
+    <div class="score" id="score">Пройдено: 0</div>
   </div>
 
-  <!-- ЭКРАН 1: Старт -->
-  <div id="scr-start" class="screen">
-    <h1 style="font-family:'Press Start 2P',cursive; color:var(--cyan); font-size:1.3rem; text-shadow:0 0 20px var(--cyan);">FREEDRUS</h1>
-    <p style="margin:15px; color:#ccc;">Освободи интернет!</p>
-    <button class="btn" id="btn-start">⚡ В БОЙ! ⚡</button>
+  <!-- ЭКРАН: ВЫБОР ВОЗРАСТА -->
+  <div id="scr-age" class="screen">
+    <h1 style="font-family:'Press Start 2P',cursive; color:var(--cyan); font-size:1.1rem; text-shadow:0 0 20px var(--cyan);">FREEDRUS</h1>
+    <p style="color:#ccc; margin:10px;">Сколько тебе лет?</p>
+    <div class="age-buttons">
+      <button class="age-btn" data-age="6">6-8 лет</button>
+      <button class="age-btn" data-age="10">9-12 лет</button>
+      <button class="age-btn" data-age="14">13+ лет</button>
+    </div>
+    <p style="color:#888; font-size:0.7rem;">Выбери свой уровень сложности</p>
   </div>
 
-  <!-- ЭКРАН 2: Выбор DNS -->
+  <!-- ЭКРАН: ИГРА-СБОР (для 6-8 лет) -->
+  <div id="scr-collect" class="screen hidden">
+    <h2 style="color:var(--green); font-size:0.8rem;">📦 СОБЕРИ ПАКЕТЫ СВОБОДЫ</h2>
+    <p style="color:#aaa; font-size:0.7rem;">Двигай мышкой или пальцем!</p>
+    <div class="play-field" id="collectField">
+      <div class="player" id="playerCollect">🛡️</div>
+    </div>
+    <div class="timer">⏱️ <span id="collectTimer">30</span>с</div>
+    <p style="color:var(--cyan); font-family:'Press Start 2P',cursive; font-size:0.6rem;">Собрано: <span id="collectCount">0</span>/<span id="collectTarget">8</span></p>
+  </div>
+
+  <!-- ЭКРАН: DNS-ВЫБОР (для 9-12 лет) -->
   <div id="scr-dns" class="screen hidden">
-    <h2 style="color:var(--cyan); font-size:0.9rem; margin-bottom:8px;">📡 Найди DNS-сервер</h2>
-    <p style="color:#aaa; margin-bottom:12px; font-size:0.8rem;" id="dns-hint">Подсказка: "Самый быстрый DNS от Google"</p>
+    <h2 style="color:var(--cyan); font-size:0.8rem;">📡 ВЫБЕРИ ПРАВИЛЬНЫЙ DNS</h2>
+    <p style="color:#aaa; font-size:0.7rem;" id="dns-hint">Подсказка: DNS от Google</p>
     <div class="cards" id="dns-cards"></div>
-    <div class="timer">⏱️ <span id="dns-timer">15</span>с</div>
+    <div class="timer">⏱️ <span id="dnsTimer">20</span>с</div>
   </div>
 
-  <!-- ЭКРАН 3: Ввод VPN-ключа -->
-  <div id="scr-key" class="screen hidden">
-    <h2 style="color:var(--green); font-size:0.9rem; margin-bottom:8px;">🔑 Введи VPN-ключ</h2>
-    <p style="color:#aaa; margin-bottom:12px; font-size:0.8rem;" id="key-hint">Подсказка: "Свобода" на английском</p>
-    <input type="text" class="key-input" id="key-input" placeholder="Введи ключ..." maxlength="12" autocomplete="off">
-    <button class="btn small" id="btn-key">ПРОВЕРИТЬ</button>
-    <div class="timer">⏱️ <span id="key-timer">20</span>с</div>
-    <p style="color:#888; font-size:0.7rem; margin-top:5px;" id="key-feedback"></p>
-  </div>
-
-  <!-- ЭКРАН 4: Кликер-атака -->
+  <!-- ЭКРАН: КЛИКЕР-БИТВА (для 13+) -->
   <div id="scr-click" class="screen hidden">
-    <h2 style="color:var(--pink); font-size:0.9rem; margin-bottom:8px;">💥 DDoS-АТАКА</h2>
-    <p style="color:#aaa; margin-bottom:8px;">Тапай по экрану!</p>
-    <div id="click-zone" style="width:85%; height:50%; background:rgba(255,0,255,0.05); border:3px dashed var(--pink); border-radius:25px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-family:'Press Start 2P',cursive; color:var(--pink); font-size:0.8rem;">
+    <h2 style="color:var(--pink); font-size:0.8rem;">💥 КИБЕР-АТАКА</h2>
+    <p style="color:#aaa; font-size:0.7rem;">Тапай по экрану!</p>
+    <div id="clickZone" style="width:85%; height:50%; background:rgba(255,0,255,0.05); border:3px dashed var(--pink); border-radius:20px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-family:'Press Start 2P',cursive; color:var(--pink);">
       ТАПАЙ!
     </div>
-    <p style="margin-top:10px; font-family:'Press Start 2P',cursive; color:var(--cyan);" id="click-count">0 / 25</p>
-    <div class="timer">⏱️ <span id="click-timer">10</span>с</div>
+    <div class="timer">⏱️ <span id="clickTimer">15</span>с</div>
+    <p style="color:var(--cyan);" id="clickCount">0 / 30</p>
   </div>
 
-  <!-- ЭКРАН 5: Босс -->
+  <!-- ЭКРАН: БОСС -->
   <div id="scr-boss" class="screen hidden">
-    <h2 style="color:red; font-size:0.9rem; margin-bottom:8px;">🕷️ МИЗУЛИНА</h2>
-    <div class="boss" id="boss-sprite">🕷️👁️🕷️</div>
-    <p style="color:var(--cyan); margin-top:8px;">Кликай по пауку!</p>
-    <p style="color:red; font-family:'Press Start 2P',cursive; font-size:0.7rem;" id="boss-hp">❤️❤️❤️</p>
+    <h2 style="color:red; font-size:0.8rem;">🕷️ ФИНАЛЬНЫЙ БОСС</h2>
+    <div class="boss-sprite" id="bossEl">🕷️👁️🕷️</div>
+    <p style="color:var(--cyan);">Кликай по пауку!</p>
+    <p id="bossHp" style="font-family:'Press Start 2P',cursive; color:red;">❤️❤️❤️</p>
   </div>
 
-  <!-- ЭКРАН 6: Финал -->
+  <!-- ЭКРАН: ФИНАЛ -->
   <div id="scr-end" class="screen hidden">
-    <div id="end-message" style="text-align:center;"></div>
+    <div id="endMsg"></div>
   </div>
 
-  <!-- Бот Навального -->
+  <!-- БОТ -->
   <div class="bot" id="bot">
     <span class="bot-avatar">🧑‍💻</span>
-    <span class="bot-text" id="bot-text">Привет! Я Навальный. Мы сломаем цифровую тюрьму!</span>
+    <span class="bot-text" id="botText">Выбери свой возраст!</span>
   </div>
 </div>
 
 <script>
 (function(){
-  // ===== ЗВУКИ =====
+  // ===== АУДИО =====
   let audioCtx = null;
   function initAudio() {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     if (audioCtx.state === 'suspended') audioCtx.resume();
   }
-  function beep(f=440, t='square', d=0.08) {
+  function beep(f=440,t='square',d=0.08) {
     if (!audioCtx) return;
     try {
-      const o = audioCtx.createOscillator();
-      const g = audioCtx.createGain();
-      o.type = t; o.frequency.value = f;
-      g.gain.setValueAtTime(0.12, audioCtx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + d);
+      const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+      o.type=t; o.frequency.value=f;
+      g.gain.setValueAtTime(0.1,audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+d);
       o.connect(g); g.connect(audioCtx.destination);
-      o.start(); o.stop(audioCtx.currentTime + d);
-    } catch(e) {}
+      o.start(); o.stop(audioCtx.currentTime+d);
+    }catch(e){}
   }
   function fanfare() {
-    beep(523, 'triangle', 0.12);
-    setTimeout(()=>beep(659, 'triangle', 0.12), 120);
-    setTimeout(()=>beep(784, 'triangle', 0.2), 240);
+    beep(523,'triangle',0.12);
+    setTimeout(()=>beep(659,'triangle',0.12),120);
+    setTimeout(()=>beep(784,'triangle',0.2),240);
   }
 
   // ===== СОСТОЯНИЕ =====
   const S = {
+    age: 8,
     hp: 5, maxHp: 5,
     freedom: 0,
     cleared: 0,
-    screen: 'start',
+    screen: 'age',
     active: true,
-    bossHp: 3
+    bossHp: 3,
+    difficulty: 'easy'
   };
 
   // ===== DOM =====
   const $ = id => document.getElementById(id);
   const screens = {
-    start: $('scr-start'),
+    age: $('scr-age'),
+    collect: $('scr-collect'),
     dns: $('scr-dns'),
-    key: $('scr-key'),
     click: $('scr-click'),
     boss: $('scr-boss'),
     end: $('scr-end')
   };
   const freedomBar = $('freedomBar');
-  const heartsEl = $('hearts');
+  const hpEl = $('hp');
   const scoreEl = $('score');
-  const botText = $('bot-text');
+  const botText = $('botText');
 
-  // Фразы бота
   const quotes = [
-    "Ты справишься! Интернет должен быть свободным!",
-    "VPN — твой друг. Запомни это!",
-    "DNS — это как адресная книга интернета.",
-    "Google DNS: 8.8.8.8. Запомнила?",
-    "Каждый клик — это шаг к победе!",
-    "Мизулина боится свободы. Атакуй!",
-    "Не сдавайся! Мы почти у цели.",
-    "Твоя смелость вдохновляет!",
-    "Шифрование — это круто!",
-    "Свобода слова — это важно!"
+    "Ты супер! Интернет будет свободным!",
+    "Лови пакеты свободы!",
+    "Уклоняйся от блокировок!",
+    "Каждый пакет — шаг к победе!",
+    "Ты настоящий хакер!",
+    "Не дай им заблокировать тебя!",
+    "Свобода слова важна!",
+    "Вперёд, герой!"
   ];
-  function randomQuote() {
-    return quotes[Math.floor(Math.random() * quotes.length)];
-  }
+  function rQuote() { return quotes[Math.floor(Math.random()*quotes.length)]; }
 
   function updateUI() {
-    freedomBar.style.width = Math.min(100, S.freedom) + '%';
-    let h = '';
-    for (let i=0; i<S.maxHp; i++) h += i < S.hp ? '❤️' : '🖤';
-    heartsEl.innerHTML = h;
-    scoreEl.textContent = 'Пройдено: ' + S.cleared;
+    freedomBar.style.width = Math.min(100, S.freedom)+'%';
+    let h=''; for(let i=0;i<S.maxHp;i++) h+=i<S.hp?'❤️':'🖤';
+    hpEl.innerHTML = h;
+    scoreEl.textContent = 'Пройдено: '+S.cleared;
   }
 
   function showScreen(id) {
-    Object.values(screens).forEach(s => s.classList.add('hidden'));
-    if (screens[id]) screens[id].classList.remove('hidden');
+    Object.values(screens).forEach(s=>s.classList.add('hidden'));
+    if(screens[id]) screens[id].classList.remove('hidden');
     S.screen = id;
-    botText.textContent = id === 'start' ? 'Привет! Я Навальный. Мы сломаем цифровую тюрьму!' : randomQuote();
+    if(id==='age') botText.textContent = 'Выбери свой возраст!';
+    else botText.textContent = rQuote();
   }
 
   function hurt(n=1) {
-    if (!S.active) return;
+    if(!S.active) return;
     S.hp -= n;
     updateUI();
-    beep(180, 'sawtooth', 0.15);
-    if (S.hp <= 0) {
-      S.hp = 0;
-      S.active = false;
-      endGame(false);
-    }
+    beep(180,'sawtooth',0.15);
+    if(S.hp<=0) { S.hp=0; S.active=false; endGame(false); }
   }
 
   function endGame(won) {
-    S.active = false;
-    clearTimers();
+    S.active=false; clearTimers();
     showScreen('end');
-    const div = $('end-message');
-    if (won) {
-      S.freedom = 100;
-      S.cleared += 5;
-      updateUI();
-      fanfare();
-      div.innerHTML = `
-        <p style="color:red; font-family:'Press Start 2P',cursive; font-size:0.65rem; margin:10px;">Мизулина: «ШАМАН ОТМСТИТ ЗА МЕНЯ!»</p>
-        <p style="color:#0f0; font-family:'Press Start 2P',cursive; font-size:0.65rem; margin:10px;">Навальный: «Свободные умы всегда найдут лазейку. Победа!»</p>
-        <button class="btn" id="btn-restart">🔄 ИГРАТЬ СНОВА</button>
+    const d=$('endMsg');
+    if(won) {
+      S.freedom=100; S.cleared+=5; updateUI(); fanfare();
+      d.innerHTML=`
+        <p style="color:red;font-family:'Press Start 2P',cursive;font-size:0.6rem;margin:8px;">Мизулина: «ШАМАН ОТМСТИТ!»</p>
+        <p style="color:#0f0;font-family:'Press Start 2P',cursive;font-size:0.6rem;margin:8px;">Навальный: «Победа! Интернет свободен!»</p>
+        <button class="btn" id="btnRestart">🔄 ИГРАТЬ СНОВА</button>
       `;
     } else {
-      div.innerHTML = `
-        <p style="color:red; font-family:'Press Start 2P',cursive; font-size:0.65rem; margin:10px;">Мизулина: «Рунет наш! Сидите в клетке.»</p>
-        <p style="color:#0f0; font-family:'Press Start 2P',cursive; font-size:0.65rem; margin:10px;">Навальный: «Не сдавайся! Перезагрузим систему...»</p>
-        <button class="btn" id="btn-restart">🔄 РЕСТАРТ</button>
+      d.innerHTML=`
+        <p style="color:red;font-family:'Press Start 2P',cursive;font-size:0.6rem;margin:8px;">Мизулина: «Рунет наш!»</p>
+        <p style="color:#0f0;font-family:'Press Start 2P',cursive;font-size:0.6rem;margin:8px;">Навальный: «Не сдавайся! Попробуем снова...»</p>
+        <button class="btn" id="btnRestart">🔄 РЕСТАРТ</button>
       `;
     }
     setTimeout(()=>{
-      const b = $('btn-restart');
-      if (b) b.addEventListener('click', restart);
-    }, 100);
+      const b=$('btnRestart');
+      if(b) b.addEventListener('click', ()=>{ showScreen('age'); S.active=true; restart(); });
+    },100);
   }
 
   function restart() {
-    S.hp = 5; S.freedom = 0; S.cleared = 0; S.active = true; S.bossHp = 3;
+    S.hp=5; S.freedom=0; S.cleared=0; S.active=true; S.bossHp=3;
     clearTimers();
     updateUI();
-    showScreen('start');
   }
 
-  // ===== ТАЙМЕРЫ =====
-  let timers = [];
-  function clearTimers() { timers.forEach(t => { clearInterval(t); clearTimeout(t); }); timers = []; }
+  let timers=[];
+  function clearTimers() { timers.forEach(t=>{clearInterval(t);clearTimeout(t);}); timers=[]; }
 
-  // ===== ЗАДАНИЕ 1: DNS (простой выбор) =====
+  // ===== ВЫБОР ВОЗРАСТА =====
+  document.querySelectorAll('.age-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      initAudio();
+      const age = parseInt(e.target.dataset.age);
+      S.age = age;
+      restart();
+      if (age <= 8) {
+        S.difficulty = 'easy';
+        S.maxHp = 5; S.hp = 5;
+        startCollect();
+      } else if (age <= 12) {
+        S.difficulty = 'medium';
+        S.maxHp = 4; S.hp = 4;
+        startDNS();
+      } else {
+        S.difficulty = 'hard';
+        S.maxHp = 3; S.hp = 3;
+        startClicker();
+      }
+      updateUI();
+    });
+  });
+
+  // ===== РЕЖИМ 1: СБОР ПАКЕТОВ (6-8 лет) =====
+  function startCollect() {
+    showScreen('collect');
+    S.active = true;
+    const field = $('collectField');
+    const player = $('playerCollect');
+    let collected = 0;
+    const target = S.difficulty === 'easy' ? 8 : 12;
+    let time = S.difficulty === 'easy' ? 30 : 25;
+    $('collectTarget').textContent = target;
+    $('collectCount').textContent = '0';
+    $('collectTimer').textContent = time;
+
+    // Позиция игрока
+    let px = field.offsetWidth/2, py = field.offsetHeight/2;
+    player.style.left = px+'px';
+    player.style.top = py+'px';
+
+    // Предметы для сбора
+    const items = [];
+    const enemies = [];
+
+    function spawnItem() {
+      if (!S.active || S.screen !== 'collect') return;
+      const el = document.createElement('div');
+      el.className = 'item';
+      el.textContent = ['📦','💾','🔑','🌐','📡'][Math.floor(Math.random()*5)];
+      const x = Math.random()*(field.offsetWidth-40)+20;
+      const y = Math.random()*(field.offsetHeight-40)+20;
+      el.style.left = x+'px';
+      el.style.top = y+'px';
+      el.dataset.x = x;
+      el.dataset.y = y;
+      field.appendChild(el);
+      items.push(el);
+    }
+
+    function spawnEnemy() {
+      if (!S.active || S.screen !== 'collect') return;
+      const el = document.createElement('div');
+      el.className = 'enemy';
+      el.textContent = '🚫';
+      const x = Math.random()*(field.offsetWidth-40)+20;
+      const y = Math.random()*(field.offsetHeight-40)+20;
+      el.style.left = x+'px';
+      el.style.top = y+'px';
+      el.dataset.x = x;
+      el.dataset.y = y;
+      field.appendChild(el);
+      enemies.push(el);
+    }
+
+    // Спавн предметов
+    for (let i=0;i<target+3;i++) spawnItem();
+    for (let i=0;i<4;i++) spawnEnemy();
+    const spawnTimer = setInterval(()=>{
+      if (Math.random()<0.5) spawnItem(); else spawnEnemy();
+    }, 3000);
+    timers.push(spawnTimer);
+
+    // Движение врагов
+    const moveTimer = setInterval(()=>{
+      enemies.forEach(e=>{
+        if (!e.parentNode) return;
+        let ex = parseFloat(e.dataset.x);
+        let ey = parseFloat(e.dataset.y);
+        ex += (Math.random()-0.5)*30;
+        ey += (Math.random()-0.5)*30;
+        ex = Math.max(20, Math.min(field.offsetWidth-20, ex));
+        ey = Math.max(20, Math.min(field.offsetHeight-20, ey));
+        e.dataset.x = ex; e.dataset.y = ey;
+        e.style.left = ex+'px';
+        e.style.top = ey+'px';
+      });
+    }, 500);
+    timers.push(moveTimer);
+
+    // Управление мышью/тачем
+    function movePlayer(e) {
+      if (!S.active || S.screen !== 'collect') return;
+      const rect = field.getBoundingClientRect();
+      let cx, cy;
+      if (e.touches) {
+        cx = e.touches[0].clientX - rect.left;
+        cy = e.touches[0].clientY - rect.top;
+      } else {
+        cx = e.clientX - rect.left;
+        cy = e.clientY - rect.top;
+      }
+      px = Math.max(20, Math.min(rect.width-20, cx));
+      py = Math.max(20, Math.min(rect.height-20, cy));
+      player.style.left = px+'px';
+      player.style.top = py+'px';
+
+      // Проверка сбора
+      items.forEach((item, idx) => {
+        if (!item.parentNode) return;
+        const ix = parseFloat(item.dataset.x);
+        const iy = parseFloat(item.dataset.y);
+        const dist = Math.hypot(px-ix, py-iy);
+        if (dist < 35) {
+          item.remove();
+          items.splice(idx,1);
+          collected++;
+          S.freedom = Math.min(100, S.freedom + (100/target));
+          beep(600,'sine',0.08);
+          updateUI();
+          $('collectCount').textContent = collected;
+          if (collected >= target) {
+            S.cleared++;
+            updateUI();
+            clearTimers();
+            startBoss();
+          }
+        }
+      });
+
+      // Проверка столкновения с врагами
+      enemies.forEach(e => {
+        if (!e.parentNode) return;
+        const ex = parseFloat(e.dataset.x);
+        const ey = parseFloat(e.dataset.y);
+        const dist = Math.hypot(px-ex, py-ey);
+        if (dist < 35) {
+          e.remove();
+          hurt(1);
+          beep(200,'sawtooth',0.15);
+        }
+      });
+    }
+
+    field.addEventListener('mousemove', movePlayer);
+    field.addEventListener('touchmove', (e)=>{ e.preventDefault(); movePlayer(e); });
+    field.addEventListener('touchstart', (e)=>{ e.preventDefault(); movePlayer(e); });
+
+    const timer = setInterval(()=>{
+      if (!S.active || S.screen!=='collect') { clearInterval(timer); return; }
+      time--;
+      $('collectTimer').textContent = time;
+      if (time<=0) { clearInterval(timer); hurt(2); if(S.active) startCollect(); }
+    }, 1000);
+    timers.push(timer);
+  }
+
+  // ===== РЕЖИМ 2: DNS-ВЫБОР (9-12 лет) =====
   function startDNS() {
     showScreen('dns');
     S.active = true;
     const container = $('dns-cards');
     container.innerHTML = '';
     let correct = 0;
-    const need = 2;
-    let time = 15;
-    $('dns-timer').textContent = time;
+    const need = S.difficulty==='medium' ? 2 : 3;
+    let time = S.difficulty==='medium' ? 20 : 15;
+    $('dnsTimer').textContent = time;
 
-    // Задания с подсказками
     const tasks = [
-      { hint: 'Самый быстрый DNS от Google', options: ['8.8.8.8', '1.2.3.4', '99.99.99.99'], correct: '8.8.8.8' },
-      { hint: 'DNS, который похож на "все единицы"', options: ['8.8.4.4', '1.1.1.1', '0.0.0.0'], correct: '1.1.1.1' }
+      { hint: 'Самый быстрый DNS от Google', opts: ['8.8.8.8','1.2.3.4','99.99.99.99','0.0.0.0'], ok: '8.8.8.8' },
+      { hint: 'DNS, который как "все единицы"', opts: ['8.8.4.4','1.1.1.1','2.2.2.2','9.9.9.9'], ok: '1.1.1.1' },
+      { hint: 'Защищённый DNS с шифрованием', opts: ['192.168.0.1','10.0.0.1','9.9.9.9','172.16.0.1'], ok: '9.9.9.9' }
     ];
-    let taskNum = 0;
+    let tn = 0;
 
-    function showTask() {
-      if (taskNum >= tasks.length) {
-        S.cleared++;
-        updateUI();
-        clearTimers();
-        startKey();
-        return;
+    function show() {
+      if (tn >= tasks.length || correct >= need) {
+        S.cleared++; updateUI(); clearTimers(); startBoss(); return;
       }
-      const task = tasks[taskNum];
-      $('dns-hint').textContent = 'Подсказка: «' + task.hint + '»';
+      const t = tasks[tn];
+      $('dns-hint').textContent = '💡 «'+t.hint+'»';
       container.innerHTML = '';
-      task.options.forEach(opt => {
+      t.opts.forEach(opt => {
         const card = document.createElement('div');
         card.className = 'card';
         card.textContent = opt;
-        card.addEventListener('click', () => {
-          if (!S.active || S.screen !== 'dns') return;
-          if (card.dataset.done) return;
-          card.dataset.done = '1';
-          if (opt === task.correct) {
-            card.classList.add('correct');
+        card.addEventListener('click', ()=>{
+          if (!S.active || S.screen!=='dns' || card.dataset.done) return;
+          card.dataset.done='1';
+          if (opt===t.ok) {
+            card.classList.add('ok');
             correct++;
-            S.freedom = Math.min(100, S.freedom + 20);
-            beep(600, 'sine', 0.1);
+            S.freedom = Math.min(100, S.freedom + (100/need));
+            beep(600,'sine',0.1);
             updateUI();
-            if (correct >= need) {
-              S.cleared++;
-              updateUI();
-              clearTimers();
-              startKey();
+            if (correct>=need) {
+              S.cleared++; updateUI(); clearTimers(); startBoss();
             } else {
-              taskNum++;
-              setTimeout(showTask, 600);
+              tn++;
+              setTimeout(show, 500);
             }
           } else {
-            card.classList.add('wrong');
+            card.classList.add('bad');
             hurt(1);
-            beep(200, 'sawtooth', 0.15);
-            setTimeout(() => {
-              card.classList.remove('wrong');
-              card.dataset.done = '';
-            }, 500);
+            setTimeout(()=>{ card.classList.remove('bad'); card.dataset.done=''; }, 400);
           }
         });
         container.appendChild(card);
       });
     }
-    showTask();
+    show();
 
-    const timer = setInterval(() => {
-      if (!S.active || S.screen !== 'dns') { clearInterval(timer); return; }
-      time--;
-      $('dns-timer').textContent = time;
-      if (time <= 0) { clearInterval(timer); hurt(2); if (S.active) startDNS(); }
+    const timer = setInterval(()=>{
+      if (!S.active || S.screen!=='dns') { clearInterval(timer); return; }
+      time--; $('dnsTimer').textContent = time;
+      if (time<=0) { clearInterval(timer); hurt(2); if(S.active) startDNS(); }
     }, 1000);
     timers.push(timer);
   }
 
-  // ===== ЗАДАНИЕ 2: VPN-ключ =====
-  function startKey() {
-    showScreen('key');
-    S.active = true;
-    const input = $('key-input');
-    const feedback = $('key-feedback');
-    input.value = '';
-    feedback.textContent = '';
-    let time = 20;
-    $('key-timer').textContent = time;
-    $('key-hint').textContent = 'Подсказка: «Свобода» на английском (7 букв)';
-
-    const check = () => {
-      if (!S.active || S.screen !== 'key') return;
-      const val = input.value.trim().toLowerCase();
-      if (val === 'freedom') {
-        feedback.textContent = '✅ Правильно!';
-        feedback.style.color = '#0f0';
-        S.freedom = Math.min(100, S.freedom + 25);
-        S.cleared++;
-        updateUI();
-        beep(700, 'sine', 0.12);
-        clearTimers();
-        setTimeout(startClick, 800);
-      } else if (val.length >= 3) {
-        feedback.textContent = '❌ Неверно. Попробуй ещё!';
-        feedback.style.color = 'red';
-        hurt(1);
-        beep(200, 'sawtooth', 0.15);
-        input.value = '';
-      }
-    };
-
-    $('btn-key').addEventListener('click', check);
-    input.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') check();
-    });
-
-    const timer = setInterval(() => {
-      if (!S.active || S.screen !== 'key') { clearInterval(timer); return; }
-      time--;
-      $('key-timer').textContent = time;
-      if (time <= 0) { clearInterval(timer); hurt(2); if (S.active) startKey(); }
-    }, 1000);
-    timers.push(timer);
-  }
-
-  // ===== ЗАДАНИЕ 3: Кликер =====
-  function startClick() {
+  // ===== РЕЖИМ 3: КЛИКЕР (13+) =====
+  function startClicker() {
     showScreen('click');
     S.active = true;
     let clicks = 0;
-    const target = 25;
-    let time = 10;
-    $('click-timer').textContent = time;
-    $('click-count').textContent = '0 / ' + target;
-    const zone = $('click-zone');
-    zone.style.background = 'rgba(255,0,255,0.05)';
-
-    zone.onclick = () => {
-      if (!S.active || S.screen !== 'click') return;
+    const target = S.difficulty==='hard' ? 30 : 20;
+    let time = S.difficulty==='hard' ? 15 : 12;
+    $('clickTimer').textContent = time;
+    $('clickCount').textContent = '0 / '+target;
+    const zone = $('clickZone');
+    zone.onclick = ()=>{
+      if (!S.active || S.screen!=='click') return;
       clicks++;
-      S.freedom = Math.min(100, S.freedom + 3);
-      beep(800 + clicks * 10, 'square', 0.04);
+      S.freedom = Math.min(100, S.freedom + (100/target));
+      beep(800+clicks*15,'square',0.04);
       updateUI();
-      $('click-count').textContent = clicks + ' / ' + target;
-      zone.style.background = 'rgba(255,0,255,0.2)';
-      setTimeout(() => { zone.style.background = 'rgba(255,0,255,0.05)'; }, 60);
-      if (clicks >= target) {
-        S.cleared++;
-        updateUI();
-        clearTimers();
-        startBoss();
-      }
+      $('clickCount').textContent = clicks+' / '+target;
+      if (clicks>=target) { S.cleared++; updateUI(); clearTimers(); startBoss(); }
     };
-
-    const timer = setInterval(() => {
-      if (!S.active || S.screen !== 'click') { clearInterval(timer); return; }
-      time--;
-      $('click-timer').textContent = time;
-      if (time <= 0) { clearInterval(timer); hurt(2); if (S.active) startClick(); }
+    const timer = setInterval(()=>{
+      if (!S.active || S.screen!=='click') { clearInterval(timer); return; }
+      time--; $('clickTimer').textContent = time;
+      if (time<=0) { clearInterval(timer); hurt(2); if(S.active) startClicker(); }
     }, 1000);
     timers.push(timer);
   }
 
-  // ===== ЗАДАНИЕ 4: Босс =====
+  // ===== БОСС (для всех) =====
   function startBoss() {
     showScreen('boss');
     S.active = true;
-    S.bossHp = 3;
-    $('boss-hp').textContent = '❤️❤️❤️';
-    const bossEl = $('boss-sprite');
-
-    bossEl.onclick = () => {
-      if (!S.active || S.screen !== 'boss') return;
+    S.bossHp = S.difficulty==='hard' ? 5 : 3;
+    let hpText = '';
+    for (let i=0;i<S.bossHp;i++) hpText += '❤️';
+    $('bossHp').textContent = hpText;
+    const bossEl = $('bossEl');
+    bossEl.onclick = ()=>{
+      if (!S.active || S.screen!=='boss') return;
       S.bossHp--;
-      beep(300, 'sawtooth', 0.1);
+      beep(300,'sawtooth',0.1);
       bossEl.style.transform = 'scale(1.3)';
-      setTimeout(() => { bossEl.style.transform = 'scale(1)'; }, 100);
-      let hpText = '';
-      for (let i = 0; i < 3; i++) hpText += i < S.bossHp ? '❤️' : '🖤';
-      $('boss-hp').textContent = hpText;
-      if (S.bossHp <= 0) {
-        clearTimers();
-        endGame(true);
-      }
+      setTimeout(()=>{ bossEl.style.transform='scale(1)'; }, 100);
+      let ht='';
+      for (let i=0;i<(S.difficulty==='hard'?5:3);i++) ht+= i<S.bossHp?'❤️':'🖤';
+      $('bossHp').textContent = ht;
+      if (S.bossHp<=0) { clearTimers(); endGame(true); }
     };
-
-    const atk = setInterval(() => {
-      if (!S.active || S.screen !== 'boss') { clearInterval(atk); return; }
-      if (Math.random() < 0.45) {
+    const atk = setInterval(()=>{
+      if (!S.active || S.screen!=='boss') { clearInterval(atk); return; }
+      if (Math.random()<0.5) {
         hurt(1);
-        const g = $('gameContainer');
-        g.style.transform = 'translateX(4px)';
-        setTimeout(() => { g.style.transform = 'translateX(-4px)'; setTimeout(()=>{g.style.transform='';},50); }, 50);
+        const g=$('gameContainer');
+        g.style.transform='translateX(3px)';
+        setTimeout(()=>{g.style.transform='translateX(-3px)';setTimeout(()=>{g.style.transform='';},50);},50);
       }
-    }, 2200);
+    }, S.difficulty==='hard'?1800:2500);
     timers.push(atk);
   }
 
   // ===== ЗВЁЗДЫ =====
-  const canvas = $('stars');
-  const ctx = canvas.getContext('2d');
-  function resize() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
-  window.addEventListener('resize', resize);
-  resize();
-  const starsArr = Array.from({length: 120}, () => ({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    r: Math.random() * 1.8 + 0.4,
-    sp: Math.random() * 0.4 + 0.1
+  const canvas=$('starCanvas'), ctx=canvas.getContext('2d');
+  function resize() { canvas.width=canvas.offsetWidth; canvas.height=canvas.offsetHeight; }
+  window.addEventListener('resize',resize); resize();
+  const starsArr=Array.from({length:100},()=>({
+    x:Math.random()*canvas.width, y:Math.random()*canvas.height,
+    r:Math.random()*1.5+0.3, sp:Math.random()*0.3+0.1
   }));
   function draw() {
-    if (!ctx) return;
+    if(!ctx) return;
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = '#fff';
-    starsArr.forEach(s => {
-      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill();
-      s.y += s.sp;
-      if (s.y > canvas.height) { s.y = 0; s.x = Math.random() * canvas.width; }
+    ctx.fillStyle='#fff';
+    starsArr.forEach(s=>{
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill();
+      s.y+=s.sp;
+      if(s.y>canvas.height){s.y=0;s.x=Math.random()*canvas.width;}
     });
     requestAnimationFrame(draw);
   }
   draw();
 
-  // ===== СТАРТ =====
-  $('btn-start').addEventListener('click', () => {
-    initAudio();
-    restart();
-    startDNS();
-  });
-
   // ===== ИНИТ =====
   updateUI();
-  showScreen('start');
-  console.log('🎮 Freedrus готов!');
+  showScreen('age');
+  console.log('🎮 Freedrus готов! Выбери возраст.');
 })();
 </script>
 </body>
