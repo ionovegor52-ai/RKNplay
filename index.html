@@ -38,7 +38,6 @@
       overflow-x: hidden;
     }
 
-    /* основной игровой контейнер */
     .game-container {
       width: 100%;
       max-width: 900px;
@@ -56,7 +55,6 @@
       color: #e0e0e0;
     }
 
-    /* звёздный фон через canvas */
     #starfield {
       position: absolute;
       top: 0;
@@ -67,7 +65,6 @@
       pointer-events: none;
     }
 
-    /* верхняя панель */
     .hud {
       position: relative;
       z-index: 20;
@@ -149,7 +146,6 @@
       box-shadow: 0 0 15px var(--neon-cyan);
     }
 
-    /* основной экран */
     .screen {
       position: relative;
       z-index: 10;
@@ -166,7 +162,6 @@
       opacity: 0;
     }
 
-    /* навальный бот */
     .navalny-bot {
       position: absolute;
       bottom: 1.2rem;
@@ -199,7 +194,6 @@
       100% { transform: translateY(-5px); }
     }
 
-    /* кнопки */
     .cyber-btn {
       background: transparent;
       border: 2px solid var(--neon-magenta);
@@ -222,7 +216,6 @@
       box-shadow: 0 0 30px var(--neon-magenta);
     }
 
-    /* экраны */
     .game-area {
       width: 100%;
       height: 100%;
@@ -318,7 +311,6 @@
 <body>
 <div class="game-container" id="gameContainer">
   <canvas id="starfield"></canvas>
-  <!-- HUD -->
   <div class="hud">
     <div class="freedom-bar">
       <span class="freedom-label">СВОБОДА</span>
@@ -331,7 +323,6 @@
     </div>
   </div>
 
-  <!-- Экраны -->
   <div id="screen1" class="screen"><div class="game-area"><h1 style="font-family:var(--font-pixel); color:var(--neon-cyan);">FREEDRUS</h1><p style="margin:1rem;">Цифровое сопротивление</p><button class="cyber-btn" id="startBtn">В БОЙ!</button></div></div>
   <div id="screen2" class="screen hidden"><div class="game-area"><h2>DNS-ПАКЕТЫ</h2><div id="packetContainer" class="packet-field"></div><p id="timerDisplay2">15</p></div></div>
   <div id="screen3" class="screen hidden"><div class="game-area"><h2>ПРОСТЫЕ ЧИСЛА</h2><div id="matrixContainer" class="matrix-grid"></div><p id="timerDisplay3">20</p></div></div>
@@ -339,13 +330,11 @@
   <div id="screen5" class="screen hidden"><div class="game-area boss-area"><div class="boss-sprite">🕷️👁️</div><p>Мизулина атакует! Уклоняйся и кликай!</p></div></div>
   <div id="finalScreen" class="screen hidden"><div class="game-area" id="finalMessage"></div></div>
 
-  <!-- Навальный бот -->
   <div class="navalny-bot" id="navalnyBot">
     <span class="navalny-avatar">🧑‍💻</span>
     <span class="navalny-text" id="navalnyPhrase">Загружаюсь...</span>
   </div>
 
-  <!-- Пауза оверлей -->
   <div id="pauseOverlay" class="pause-overlay hidden"><button class="cyber-btn" id="resumeBtn">ПРОДОЛЖИТЬ</button></div>
 </div>
 
@@ -385,7 +374,6 @@
       gameActive: true
     };
 
-    // DOM элементы
     const screens = {
       screen1: document.getElementById('screen1'),
       screen2: document.getElementById('screen2'),
@@ -400,7 +388,6 @@
     const navalnyPhrase = document.getElementById('navalnyPhrase');
     const pauseOverlay = document.getElementById('pauseOverlay');
 
-    // Фразы Навального
     const navalnyQuotes = [
       "Не жди свободы — взламывай её!", "IP-адреса не врут, в отличие от РКН.",
       "Шифруйся так, будто завтра блокировка.", "Даже паук боится света.",
@@ -412,7 +399,6 @@
       return navalnyQuotes[Math.floor(Math.random() * navalnyQuotes.length)];
     }
 
-    // Обновление UI
     function updateUI() {
       freedomFill.style.width = Math.min(100, state.freedom) + '%';
       let heartsHtml = '';
@@ -432,7 +418,7 @@
     }
 
     function takeDamage(dmg=1) {
-      if (!state.gameActive) return;
+      if (!state.gameActive || state.paused) return;
       state.health -= dmg;
       updateUI();
       playBeep(200, 'sawtooth', 0.1);
@@ -469,6 +455,8 @@
       state.bossPhase = 1;
       state.bossHealth = 3;
       state.gameActive = true;
+      state.paused = false;
+      pauseOverlay.classList.add('hidden');
       updateUI();
       clearAllTimers();
     }
@@ -494,7 +482,7 @@
         packet.className = 'packet';
         packet.textContent = addr;
         packet.addEventListener('click', (e)=>{
-          if (!state.gameActive || state.currentScreen!=='screen2') return;
+          if (!state.gameActive || state.paused || state.currentScreen!=='screen2') return;
           if (correctAddresses.includes(addr) && !packet.dataset.collected) {
             packet.dataset.collected = 'true';
             packet.style.background = '#0f0';
@@ -515,7 +503,7 @@
         container.appendChild(packet);
       }
       const timer = setInterval(()=>{
-        if (state.currentScreen !== 'screen2' || !state.gameActive) { clearInterval(timer); return; }
+        if (state.paused || state.currentScreen !== 'screen2' || !state.gameActive) return;
         timeLeft--;
         document.getElementById('timerDisplay2').textContent = timeLeft;
         if (timeLeft <= 0) { clearInterval(timer); takeDamage(2); switchScreen('screen2'); }
@@ -540,7 +528,7 @@
         cell.textContent = num;
         const isPrime = [2,3,5,7,11,13,17,19,23,29].includes(num);
         cell.addEventListener('click', ()=>{
-          if (!state.gameActive || state.currentScreen!=='screen3') return;
+          if (!state.gameActive || state.paused || state.currentScreen!=='screen3') return;
           if (isPrime && !cell.dataset.found) {
             cell.dataset.found = 'true';
             cell.style.background = '#0f0';
@@ -561,7 +549,7 @@
         matrix.appendChild(cell);
       });
       const timer = setInterval(()=>{
-        if (state.currentScreen !== 'screen3' || !state.gameActive) { clearInterval(timer); return; }
+        if (state.paused || state.currentScreen !== 'screen3' || !state.gameActive) return;
         timeLeft--;
         document.getElementById('timerDisplay3').textContent = timeLeft;
         if (timeLeft<=0) { clearInterval(timer); takeDamage(2); switchScreen('screen3'); }
@@ -576,7 +564,7 @@
       const target = 20;
       const zone = document.getElementById('clickerZone');
       zone.onclick = (e) => {
-        if (!state.gameActive || state.currentScreen!=='screen4') return;
+        if (!state.gameActive || state.paused || state.currentScreen!=='screen4') return;
         clicks++;
         state.freedom = Math.min(100, state.freedom + 5);
         playBeep(1000, 'square', 0.05);
@@ -587,19 +575,19 @@
           startBossFight();
         }
       };
-      setTimeout(()=>{
-        if (state.currentScreen==='screen4' && state.gameActive) { takeDamage(2); switchScreen('screen4'); }
+      const failTimer = setTimeout(()=>{
+        if (state.currentScreen==='screen4' && state.gameActive && !state.paused) { takeDamage(2); switchScreen('screen4'); }
       }, 12000);
+      activeTimers.push(failTimer);
     }
 
     // ----- ЭКРАН 5: Босс -----
     function startBossFight() {
       switchScreen('screen5');
       state.bossHealth = 3;
-      state.bossPhase = 1;
       const bossArea = document.querySelector('.boss-area');
       bossArea.onclick = (e) => {
-        if (!state.gameActive || state.currentScreen!=='screen5') return;
+        if (!state.gameActive || state.paused || state.currentScreen!=='screen5') return;
         state.bossHealth--;
         playBeep(300, 'sawtooth', 0.1);
         if (state.bossHealth <= 0) {
@@ -608,27 +596,36 @@
           gameOver(true);
         }
       };
-      // атаки босса
       const bossAttack = setInterval(()=>{
-        if (!state.gameActive || state.currentScreen!=='screen5') { clearInterval(bossAttack); return; }
+        if (!state.gameActive || state.paused || state.currentScreen!=='screen5') return;
         if (Math.random() < 0.5) takeDamage(1);
       }, 2500);
       activeTimers.push(bossAttack);
     }
 
-    // ----- ПАУЗА -----
+    // ----- ПАУЗА (ИСПРАВЛЕНО) -----
+    function setPause(pause) {
+      if (state.paused === pause) return;
+      state.paused = pause;
+      if (pause) {
+        pauseOverlay.classList.remove('hidden');
+      } else {
+        pauseOverlay.classList.add('hidden');
+      }
+    }
+
     document.getElementById('pauseToggle').addEventListener('click', ()=>{
-      state.paused = !state.paused;
-      pauseOverlay.classList.toggle('hidden', !state.paused);
+      setPause(!state.paused);
     });
+
     document.getElementById('resumeBtn').addEventListener('click', ()=>{
-      state.paused = false;
-      pauseOverlay.classList.add('hidden');
+      setPause(false);
     });
+
     document.addEventListener('keydown', (e)=>{
       if (e.key === 'Escape') {
-        state.paused = !state.paused;
-        pauseOverlay.classList.toggle('hidden', !state.paused);
+        e.preventDefault();
+        setPause(!state.paused);
       }
     });
 
