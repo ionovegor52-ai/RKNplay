@@ -16,28 +16,29 @@
       --green: #0f0;
       --red: #ff3366;
       --yellow: #ff0;
+      --white: #fff;
     }
 
     body {
       font-family: 'Roboto', sans-serif;
-      background: #050510;
+      background: #020210;
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      padding: 8px;
+      padding: 6px;
       overflow: hidden;
     }
 
     .game {
       width: 100%;
-      max-width: 800px;
-      height: 92vh;
-      max-height: 850px;
+      max-width: 780px;
+      height: 94vh;
+      max-height: 860px;
       background: #0a0a1a;
       border: 3px solid var(--cyan);
-      border-radius: 25px;
-      box-shadow: 0 0 50px rgba(0,255,255,0.5), inset 0 0 30px rgba(0,0,0,0.8);
+      border-radius: 22px;
+      box-shadow: 0 0 45px rgba(0,255,255,0.5), inset 0 0 25px rgba(0,0,0,0.8);
       display: flex;
       flex-direction: column;
       position: relative;
@@ -52,37 +53,38 @@
       z-index: 0;
     }
 
-    /* ВЕРХНЯЯ ПАНЕЛЬ */
+    /* HUD */
     .hud {
       z-index: 20;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 14px;
+      padding: 6px 12px;
       background: rgba(0,0,0,0.9);
       border-bottom: 2px solid var(--cyan);
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 5px;
+      min-height: 40px;
     }
     .freedom-wrap {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       flex: 2;
-      min-width: 130px;
+      min-width: 120px;
     }
     .freedom-label {
       font-family: 'Press Start 2P', cursive;
-      font-size: 0.5rem;
+      font-size: 0.45rem;
       color: var(--cyan);
       white-space: nowrap;
     }
     .bar-bg {
       flex: 1;
-      height: 14px;
+      height: 12px;
       background: #1a1a1a;
       border: 1px solid var(--pink);
-      border-radius: 20px;
+      border-radius: 15px;
       overflow: hidden;
     }
     .bar-fill {
@@ -90,21 +92,27 @@
       height: 100%;
       background: linear-gradient(90deg, var(--green), var(--cyan));
       transition: width 0.3s;
-      box-shadow: 0 0 10px var(--green);
+      box-shadow: 0 0 8px var(--green);
     }
     .hp {
       display: flex;
       gap: 2px;
-      font-size: 1.3rem;
+      font-size: 1.1rem;
     }
     .score {
       font-family: 'Press Start 2P', cursive;
-      font-size: 0.45rem;
+      font-size: 0.4rem;
       color: var(--cyan);
       background: #000;
-      padding: 5px 10px;
-      border-radius: 15px;
+      padding: 4px 8px;
+      border-radius: 12px;
       border: 1px solid var(--pink);
+      white-space: nowrap;
+    }
+    .level-info {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.4rem;
+      color: var(--yellow);
       white-space: nowrap;
     }
 
@@ -116,7 +124,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 12px;
+      padding: 10px;
       text-align: center;
       position: relative;
     }
@@ -124,36 +132,36 @@
       display: none !important;
     }
 
-    /* БОТ */
+    /* БОТ НАВАЛЬНОГО */
     .bot {
       position: absolute;
-      bottom: 10px;
-      left: 10px;
+      bottom: 8px;
+      left: 8px;
       z-index: 30;
       display: flex;
       align-items: center;
-      gap: 6px;
-      background: rgba(0,30,30,0.9);
-      padding: 6px 12px;
-      border-radius: 25px;
+      gap: 5px;
+      background: rgba(0,30,30,0.95);
+      padding: 5px 10px;
+      border-radius: 20px;
       border: 1px solid var(--green);
-      box-shadow: 0 0 12px rgba(0,255,0,0.5);
-      max-width: 70%;
+      box-shadow: 0 0 10px rgba(0,255,0,0.5);
+      max-width: 72%;
       animation: float 3s infinite alternate;
     }
     @keyframes float {
       from { transform: translateY(0); }
-      to { transform: translateY(-5px); }
+      to { transform: translateY(-4px); }
     }
     .bot-avatar {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       flex-shrink: 0;
     }
     .bot-text {
       font-family: 'Press Start 2P', cursive;
-      font-size: 0.4rem;
+      font-size: 0.38rem;
       color: #b5ffb5;
-      line-height: 1.4;
+      line-height: 1.3;
       word-break: break-word;
     }
 
@@ -163,79 +171,59 @@
       border: 2px solid var(--pink);
       color: var(--pink);
       font-family: 'Press Start 2P', cursive;
-      font-size: 0.6rem;
-      padding: 12px 20px;
-      border-radius: 30px;
+      font-size: 0.55rem;
+      padding: 10px 18px;
+      border-radius: 25px;
       cursor: pointer;
       transition: 0.2s;
-      margin: 8px;
+      margin: 6px;
       text-transform: uppercase;
       letter-spacing: 1px;
-      box-shadow: 0 0 12px rgba(255,0,255,0.5);
+      box-shadow: 0 0 10px rgba(255,0,255,0.4);
       word-break: break-word;
       max-width: 90%;
     }
     .btn:hover {
       background: var(--pink);
       color: #000;
-      box-shadow: 0 0 25px var(--pink);
+      box-shadow: 0 0 20px var(--pink);
     }
-    .btn:active {
-      transform: scale(0.93);
+    .btn:active { transform: scale(0.93); }
+    .btn.green {
+      border-color: var(--green);
+      color: var(--green);
+      box-shadow: 0 0 10px rgba(0,255,0,0.4);
     }
-
-    /* ВЫБОР ВОЗРАСТА */
-    .age-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      margin: 15px 0;
-    }
-    .age-btn {
-      background: #111;
-      border: 2px solid var(--yellow);
-      color: var(--yellow);
-      font-family: 'Press Start 2P', cursive;
-      font-size: 0.7rem;
-      padding: 15px 25px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: 0.2s;
-      box-shadow: 0 0 10px rgba(255,255,0,0.4);
-    }
-    .age-btn:hover {
-      background: var(--yellow);
+    .btn.green:hover {
+      background: var(--green);
       color: #000;
-      box-shadow: 0 0 20px var(--yellow);
     }
 
     /* ИГРОВОЕ ПОЛЕ */
     .play-field {
       width: 100%;
-      height: 70%;
+      height: 65%;
       position: relative;
       background: rgba(0,0,30,0.5);
       border: 2px solid var(--cyan);
-      border-radius: 15px;
+      border-radius: 12px;
       overflow: hidden;
       cursor: pointer;
       touch-action: none;
     }
     .player {
       position: absolute;
-      width: 40px;
-      height: 40px;
-      font-size: 2rem;
+      width: 35px;
+      height: 35px;
+      font-size: 1.8rem;
       transform: translate(-50%, -50%);
-      transition: left 0.05s, top 0.05s;
       pointer-events: none;
       z-index: 15;
-      filter: drop-shadow(0 0 10px var(--cyan));
+      filter: drop-shadow(0 0 8px var(--cyan));
     }
     .item {
       position: absolute;
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       transform: translate(-50%, -50%);
       animation: pulse 1s infinite alternate;
       pointer-events: none;
@@ -243,27 +231,70 @@
     }
     @keyframes pulse {
       from { transform: translate(-50%, -50%) scale(1); }
-      to { transform: translate(-50%, -50%) scale(1.2); }
+      to { transform: translate(-50%, -50%) scale(1.25); }
     }
     .enemy {
       position: absolute;
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       transform: translate(-50%, -50%);
       pointer-events: none;
       z-index: 11;
     }
 
-    /* ТАЙМЕР */
     .timer {
       font-family: 'Press Start 2P', cursive;
-      font-size: 1rem;
+      font-size: 0.9rem;
       color: var(--pink);
-      margin: 5px 0;
+      margin: 4px 0;
+    }
+
+    /* КАРТОЧКИ */
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin: 6px 0;
+    }
+    .card {
+      background: #1a1a2e;
+      border: 2px solid var(--cyan);
+      border-radius: 12px;
+      padding: 8px 10px;
+      cursor: pointer;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.45rem;
+      color: var(--cyan);
+      box-shadow: 0 0 6px rgba(0,255,255,0.3);
+      text-align: center;
+      min-width: 70px;
+      word-break: break-word;
+      transition: 0.2s;
+    }
+    .card:hover { border-color: var(--pink); color: var(--pink); }
+    .card.ok { background: #0a3a0a !important; border-color: var(--green) !important; color: var(--green) !important; }
+    .card.bad { background: #3a0a0a !important; border-color: red !important; color: red !important; }
+
+    /* ВВОД */
+    .key-input {
+      background: #000;
+      border: 2px solid var(--cyan);
+      color: var(--cyan);
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.6rem;
+      padding: 10px 14px;
+      border-radius: 20px;
+      text-align: center;
+      width: 80%;
+      max-width: 300px;
+      margin: 8px 0;
+      outline: none;
+      letter-spacing: 2px;
     }
 
     /* БОСС */
     .boss-sprite {
-      font-size: 4rem;
+      font-size: 3.5rem;
       cursor: pointer;
       animation: glitch 0.3s infinite;
       user-select: none;
@@ -276,50 +307,37 @@
       80%{transform:translate(2px,2px)}
     }
 
-    /* КАРТОЧКИ */
-    .cards {
+    /* ПРОГРЕСС УРОВНЕЙ */
+    .level-progress {
       display: flex;
+      gap: 4px;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
-      margin: 8px 0;
+      margin: 5px 0;
     }
-    .card {
-      background: #1a1a2e;
-      border: 2px solid var(--cyan);
-      border-radius: 15px;
-      padding: 10px 12px;
-      cursor: pointer;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 0.5rem;
-      color: var(--cyan);
-      box-shadow: 0 0 8px rgba(0,255,255,0.3);
-      text-align: center;
-      min-width: 80px;
-      word-break: break-word;
-      transition: 0.2s;
+    .level-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #333;
+      border: 1px solid #555;
     }
-    .card:hover {
-      border-color: var(--pink);
-      color: var(--pink);
+    .level-dot.done {
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
     }
-    .card.ok {
-      background: #0a3a0a !important;
-      border-color: var(--green) !important;
-      color: var(--green) !important;
-    }
-    .card.bad {
-      background: #3a0a0a !important;
-      border-color: red !important;
-      color: red !important;
+    .level-dot.current {
+      background: var(--yellow);
+      box-shadow: 0 0 6px var(--yellow);
+      animation: pulse 0.8s infinite alternate;
     }
 
     @media (max-width: 500px) {
-      .btn { font-size: 0.5rem; padding: 10px 14px; }
-      .card { font-size: 0.4rem; padding: 8px; min-width: 60px; }
-      .bot-text { font-size: 0.35rem; }
-      .player { width: 30px; height: 30px; font-size: 1.5rem; }
-      .item, .enemy { font-size: 1.2rem; }
+      .btn { font-size: 0.45rem; padding: 8px 12px; }
+      .card { font-size: 0.38rem; padding: 6px; min-width: 55px; }
+      .bot-text { font-size: 0.32rem; }
+      .player { width: 28px; height: 28px; font-size: 1.4rem; }
+      .item, .enemy { font-size: 1.1rem; }
     }
   </style>
 </head>
@@ -334,68 +352,67 @@
       <div class="bar-bg"><div class="bar-fill" id="freedomBar"></div></div>
     </div>
     <div class="hp" id="hp">❤️❤️❤️❤️❤️</div>
-    <div class="score" id="score">Пройдено: 0</div>
+    <div class="score" id="score">Пройдено: 0/12</div>
+    <div class="level-info" id="levelName">Уровень 1</div>
   </div>
 
-  <!-- ЭКРАН: ВЫБОР ВОЗРАСТА -->
-  <div id="scr-age" class="screen">
-    <h1 style="font-family:'Press Start 2P',cursive; color:var(--cyan); font-size:1.1rem; text-shadow:0 0 20px var(--cyan);">FREEDRUS</h1>
-    <p style="color:#ccc; margin:10px;">Сколько тебе лет?</p>
-    <div class="age-buttons">
-      <button class="age-btn" data-age="6">6-8 лет</button>
-      <button class="age-btn" data-age="10">9-12 лет</button>
-      <button class="age-btn" data-age="14">13+ лет</button>
-    </div>
-    <p style="color:#888; font-size:0.7rem;">Выбери свой уровень сложности</p>
+  <!-- ЭКРАНЫ -->
+  <div id="scr-start" class="screen">
+    <h1 style="font-family:'Press Start 2P',cursive; color:var(--cyan); font-size:1rem; text-shadow:0 0 15px var(--cyan);">FREEDRUS</h1>
+    <p style="color:#ccc; margin:8px; font-size:0.8rem;">Освободи интернет от цензуры!</p>
+    <div class="level-progress" id="startProgress"></div>
+    <button class="btn" id="btnStart">⚡ НАЧАТЬ ⚡</button>
   </div>
 
-  <!-- ЭКРАН: ИГРА-СБОР (для 6-8 лет) -->
+  <!-- Уровни-собиралки (1,4,7,10) -->
   <div id="scr-collect" class="screen hidden">
-    <h2 style="color:var(--green); font-size:0.8rem;">📦 СОБЕРИ ПАКЕТЫ СВОБОДЫ</h2>
-    <p style="color:#aaa; font-size:0.7rem;">Двигай мышкой или пальцем!</p>
+    <h2 style="color:var(--green); font-size:0.7rem;" id="collectTitle">📦 СОБЕРИ ПАКЕТЫ</h2>
+    <p style="color:#aaa; font-size:0.6rem;">Двигай персонажа и собирай пакеты!</p>
     <div class="play-field" id="collectField">
       <div class="player" id="playerCollect">🛡️</div>
     </div>
     <div class="timer">⏱️ <span id="collectTimer">30</span>с</div>
-    <p style="color:var(--cyan); font-family:'Press Start 2P',cursive; font-size:0.6rem;">Собрано: <span id="collectCount">0</span>/<span id="collectTarget">8</span></p>
+    <p style="color:var(--cyan); font-size:0.55rem;">Собрано: <span id="collectCount">0</span>/<span id="collectTarget">10</span></p>
   </div>
 
-  <!-- ЭКРАН: DNS-ВЫБОР (для 9-12 лет) -->
+  <!-- Уровни-DNS (2,5,8,11) -->
   <div id="scr-dns" class="screen hidden">
-    <h2 style="color:var(--cyan); font-size:0.8rem;">📡 ВЫБЕРИ ПРАВИЛЬНЫЙ DNS</h2>
-    <p style="color:#aaa; font-size:0.7rem;" id="dns-hint">Подсказка: DNS от Google</p>
-    <div class="cards" id="dns-cards"></div>
-    <div class="timer">⏱️ <span id="dnsTimer">20</span>с</div>
+    <h2 style="color:var(--cyan); font-size:0.7rem;" id="dnsTitle">📡 ВЫБЕРИ DNS</h2>
+    <p style="color:#aaa; font-size:0.6rem;" id="dnsHint">Подсказка</p>
+    <div class="cards" id="dnsCards"></div>
+    <div class="timer">⏱️ <span id="dnsTimer">25</span>с</div>
+    <p style="color:var(--cyan); font-size:0.5rem;">Правильно: <span id="dnsCorrect">0</span>/<span id="dnsNeed">3</span></p>
   </div>
 
-  <!-- ЭКРАН: КЛИКЕР-БИТВА (для 13+) -->
-  <div id="scr-click" class="screen hidden">
-    <h2 style="color:var(--pink); font-size:0.8rem;">💥 КИБЕР-АТАКА</h2>
-    <p style="color:#aaa; font-size:0.7rem;">Тапай по экрану!</p>
-    <div id="clickZone" style="width:85%; height:50%; background:rgba(255,0,255,0.05); border:3px dashed var(--pink); border-radius:20px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-family:'Press Start 2P',cursive; color:var(--pink);">
-      ТАПАЙ!
-    </div>
-    <div class="timer">⏱️ <span id="clickTimer">15</span>с</div>
-    <p style="color:var(--cyan);" id="clickCount">0 / 30</p>
+  <!-- Уровни-ввод ключа (3,6,9) -->
+  <div id="scr-key" class="screen hidden">
+    <h2 style="color:var(--yellow); font-size:0.7rem;" id="keyTitle">🔑 ВВЕДИ КЛЮЧ</h2>
+    <p style="color:#aaa; font-size:0.6rem;" id="keyHint">Подсказка</p>
+    <input type="text" class="key-input" id="keyInput" placeholder="Введи ключ..." maxlength="15" autocomplete="off">
+    <button class="btn green" id="btnKey">ПРОВЕРИТЬ</button>
+    <div class="timer">⏱️ <span id="keyTimer">30</span>с</div>
+    <p style="color:#888; font-size:0.5rem;" id="keyFeedback"></p>
+    <p style="color:var(--cyan); font-size:0.5rem;">Найдено: <span id="keyFound">0</span>/<span id="keyNeed">2</span></p>
   </div>
 
-  <!-- ЭКРАН: БОСС -->
+  <!-- Уровень 12: БОСС -->
   <div id="scr-boss" class="screen hidden">
-    <h2 style="color:red; font-size:0.8rem;">🕷️ ФИНАЛЬНЫЙ БОСС</h2>
+    <h2 style="color:red; font-size:0.7rem;">🕷️ ФИНАЛЬНЫЙ БОСС</h2>
+    <p style="color:#aaa; font-size:0.6rem;">Мизулина в кибер-форме!</p>
     <div class="boss-sprite" id="bossEl">🕷️👁️🕷️</div>
-    <p style="color:var(--cyan);">Кликай по пауку!</p>
-    <p id="bossHp" style="font-family:'Press Start 2P',cursive; color:red;">❤️❤️❤️</p>
+    <p style="color:var(--cyan); font-size:0.55rem;">Кликай по пауку, чтобы атаковать!</p>
+    <p id="bossHp" style="font-family:'Press Start 2P',cursive; color:red; font-size:0.7rem;">❤️❤️❤️❤️❤️</p>
   </div>
 
-  <!-- ЭКРАН: ФИНАЛ -->
+  <!-- ФИНАЛ -->
   <div id="scr-end" class="screen hidden">
     <div id="endMsg"></div>
   </div>
 
-  <!-- БОТ -->
+  <!-- БОТ НАВАЛЬНОГО -->
   <div class="bot" id="bot">
     <span class="bot-avatar">🧑‍💻</span>
-    <span class="bot-text" id="botText">Выбери свой возраст!</span>
+    <span class="bot-text" id="botText">Привет! Я — Алексей Навальный. Мы сломаем эту цифровую тюрьму!</span>
   </div>
 </div>
 
@@ -422,60 +439,82 @@
     beep(523,'triangle',0.12);
     setTimeout(()=>beep(659,'triangle',0.12),120);
     setTimeout(()=>beep(784,'triangle',0.2),240);
+    setTimeout(()=>beep(1047,'triangle',0.3),360);
   }
 
   // ===== СОСТОЯНИЕ =====
   const S = {
-    age: 8,
     hp: 5, maxHp: 5,
     freedom: 0,
-    cleared: 0,
-    screen: 'age',
+    level: 0, // 0 = старт, 1-11 = уровни, 12 = босс
+    totalLevels: 12,
     active: true,
-    bossHp: 3,
-    difficulty: 'easy'
+    bossHp: 5
   };
 
   // ===== DOM =====
   const $ = id => document.getElementById(id);
   const screens = {
-    age: $('scr-age'),
+    start: $('scr-start'),
     collect: $('scr-collect'),
     dns: $('scr-dns'),
-    click: $('scr-click'),
+    key: $('scr-key'),
     boss: $('scr-boss'),
     end: $('scr-end')
   };
   const freedomBar = $('freedomBar');
   const hpEl = $('hp');
   const scoreEl = $('score');
+  const levelNameEl = $('levelName');
   const botText = $('botText');
 
-  const quotes = [
-    "Ты супер! Интернет будет свободным!",
-    "Лови пакеты свободы!",
-    "Уклоняйся от блокировок!",
-    "Каждый пакет — шаг к победе!",
-    "Ты настоящий хакер!",
-    "Не дай им заблокировать тебя!",
-    "Свобода слова важна!",
-    "Вперёд, герой!"
+  const navalnyQuotes = [
+    "Я — Алексей Навальный. Вместе мы сила!",
+    "Не дай цензуре победить!",
+    "Каждый уровень — шаг к свободе!",
+    "Интернет должен быть свободным!",
+    "Ты справляешься лучше всех!",
+    "VPN и DNS — наши инструменты!",
+    "Мизулина уже боится тебя!",
+    "Продолжай бороться за правду!",
+    "Свобода слова — это основа!",
+    "Ты почти у цели! Не сдавайся!"
   ];
-  function rQuote() { return quotes[Math.floor(Math.random()*quotes.length)]; }
 
   function updateUI() {
     freedomBar.style.width = Math.min(100, S.freedom)+'%';
     let h=''; for(let i=0;i<S.maxHp;i++) h+=i<S.hp?'❤️':'🖤';
     hpEl.innerHTML = h;
-    scoreEl.textContent = 'Пройдено: '+S.cleared;
+    const completed = S.level;
+    scoreEl.textContent = 'Пройдено: '+completed+'/'+S.totalLevels;
+    if (S.level === 0) levelNameEl.textContent = 'Старт';
+    else if (S.level === 12) levelNameEl.textContent = 'БОСС';
+    else levelNameEl.textContent = 'Уровень '+S.level;
   }
 
   function showScreen(id) {
     Object.values(screens).forEach(s=>s.classList.add('hidden'));
     if(screens[id]) screens[id].classList.remove('hidden');
-    S.screen = id;
-    if(id==='age') botText.textContent = 'Выбери свой возраст!';
-    else botText.textContent = rQuote();
+    if (id === 'start') {
+      botText.textContent = 'Привет! Я — Алексей Навальный. Мы сломаем эту цифровую тюрьму!';
+      updateStartProgress();
+    } else {
+      botText.textContent = navalnyQuotes[Math.floor(Math.random()*navalnyQuotes.length)];
+    }
+    updateUI();
+  }
+
+  function updateStartProgress() {
+    const container = $('startProgress');
+    if (!container) return;
+    let dots = '';
+    for (let i=1; i<=S.totalLevels; i++) {
+      let cls = 'level-dot';
+      if (i < S.level) cls += ' done';
+      else if (i === S.level && S.level > 0) cls += ' current';
+      dots += '<div class="'+cls+'"></div>';
+    }
+    container.innerHTML = dots;
   }
 
   function hurt(n=1) {
@@ -486,192 +525,186 @@
     if(S.hp<=0) { S.hp=0; S.active=false; endGame(false); }
   }
 
+  function nextLevel() {
+    S.level++;
+    S.freedom = Math.min(100, Math.round((S.level / S.totalLevels) * 100));
+    updateUI();
+    clearTimers();
+
+    if (S.level >= 13) {
+      // Все уровни пройдены
+      S.level = 12;
+      endGame(true);
+      return;
+    }
+
+    if (S.level === 12) {
+      startBoss();
+      return;
+    }
+
+    // Определяем тип уровня
+    const type = (S.level % 3 === 1) ? 'collect' : (S.level % 3 === 2) ? 'dns' : 'key';
+    
+    if (type === 'collect') startCollect();
+    else if (type === 'dns') startDNS();
+    else startKey();
+  }
+
   function endGame(won) {
     S.active=false; clearTimers();
     showScreen('end');
     const d=$('endMsg');
     if(won) {
-      S.freedom=100; S.cleared+=5; updateUI(); fanfare();
+      S.freedom=100; updateUI(); fanfare();
       d.innerHTML=`
-        <p style="color:red;font-family:'Press Start 2P',cursive;font-size:0.6rem;margin:8px;">Мизулина: «ШАМАН ОТМСТИТ!»</p>
-        <p style="color:#0f0;font-family:'Press Start 2P',cursive;font-size:0.6rem;margin:8px;">Навальный: «Победа! Интернет свободен!»</p>
+        <p style="color:red;font-family:'Press Start 2P',cursive;font-size:0.55rem;margin:8px;">Мизулина: «ШАМАН ОТМСТИТ ЗА МЕНЯ И РКН!»</p>
+        <p style="color:#0f0;font-family:'Press Start 2P',cursive;font-size:0.55rem;margin:8px;">Навальный: «Их блокировки — как паутина. Но свободные умы всегда найдут лазейку. Победа за нами!»</p>
+        <p style="color:var(--yellow);font-family:'Press Start 2P',cursive;font-size:0.5rem;">Пройдено все 12 уровней!</p>
         <button class="btn" id="btnRestart">🔄 ИГРАТЬ СНОВА</button>
       `;
     } else {
       d.innerHTML=`
-        <p style="color:red;font-family:'Press Start 2P',cursive;font-size:0.6rem;margin:8px;">Мизулина: «Рунет наш!»</p>
-        <p style="color:#0f0;font-family:'Press Start 2P',cursive;font-size:0.6rem;margin:8px;">Навальный: «Не сдавайся! Попробуем снова...»</p>
+        <p style="color:red;font-family:'Press Start 2P',cursive;font-size:0.55rem;margin:8px;">Мизулина: «Рунет наш! Сидите в своей клетке.»</p>
+        <p style="color:#0f0;font-family:'Press Start 2P',cursive;font-size:0.55rem;margin:8px;">Навальный: «Не сдавайся! Даже из цифрового ада есть выход. Перезагрузим систему...»</p>
+        <p style="color:#888;">Пройдено уровней: ${S.level}</p>
         <button class="btn" id="btnRestart">🔄 РЕСТАРТ</button>
       `;
     }
     setTimeout(()=>{
       const b=$('btnRestart');
-      if(b) b.addEventListener('click', ()=>{ showScreen('age'); S.active=true; restart(); });
+      if(b) b.addEventListener('click', restart);
     },100);
   }
 
   function restart() {
-    S.hp=5; S.freedom=0; S.cleared=0; S.active=true; S.bossHp=3;
+    S.hp=5; S.maxHp=5;
+    S.freedom=0; S.level=0; S.active=true; S.bossHp=5;
     clearTimers();
     updateUI();
+    showScreen('start');
+    updateStartProgress();
   }
 
   let timers=[];
   function clearTimers() { timers.forEach(t=>{clearInterval(t);clearTimeout(t);}); timers=[]; }
 
-  // ===== ВЫБОР ВОЗРАСТА =====
-  document.querySelectorAll('.age-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      initAudio();
-      const age = parseInt(e.target.dataset.age);
-      S.age = age;
-      restart();
-      if (age <= 8) {
-        S.difficulty = 'easy';
-        S.maxHp = 5; S.hp = 5;
-        startCollect();
-      } else if (age <= 12) {
-        S.difficulty = 'medium';
-        S.maxHp = 4; S.hp = 4;
-        startDNS();
-      } else {
-        S.difficulty = 'hard';
-        S.maxHp = 3; S.hp = 3;
-        startClicker();
-      }
-      updateUI();
-    });
-  });
-
-  // ===== РЕЖИМ 1: СБОР ПАКЕТОВ (6-8 лет) =====
+  // ===== УРОВНИ-СОБИРАЛКИ (1,4,7,10) =====
   function startCollect() {
     showScreen('collect');
     S.active = true;
     const field = $('collectField');
     const player = $('playerCollect');
+    
+    // Очистка поля
+    field.querySelectorAll('.item,.enemy').forEach(el=>el.remove());
+    
     let collected = 0;
-    const target = S.difficulty === 'easy' ? 8 : 12;
-    let time = S.difficulty === 'easy' ? 30 : 25;
+    const target = 8 + Math.floor(S.level/3); // Увеличивается с уровнем
+    let time = 28 - Math.floor(S.level/3); // Уменьшается с уровнем
     $('collectTarget').textContent = target;
     $('collectCount').textContent = '0';
     $('collectTimer').textContent = time;
+    $('collectTitle').textContent = '📦 УРОВЕНЬ '+S.level+': СОБЕРИ ПАКЕТЫ';
 
-    // Позиция игрока
     let px = field.offsetWidth/2, py = field.offsetHeight/2;
     player.style.left = px+'px';
     player.style.top = py+'px';
 
-    // Предметы для сбора
     const items = [];
     const enemies = [];
 
     function spawnItem() {
-      if (!S.active || S.screen !== 'collect') return;
+      if (!S.active) return;
       const el = document.createElement('div');
       el.className = 'item';
-      el.textContent = ['📦','💾','🔑','🌐','📡'][Math.floor(Math.random()*5)];
+      el.textContent = ['📦','💾','🔑','🌐','📡','💎','🎯','⭐'][Math.floor(Math.random()*8)];
       const x = Math.random()*(field.offsetWidth-40)+20;
       const y = Math.random()*(field.offsetHeight-40)+20;
-      el.style.left = x+'px';
-      el.style.top = y+'px';
-      el.dataset.x = x;
-      el.dataset.y = y;
+      el.style.left = x+'px'; el.style.top = y+'px';
+      el.dataset.x = x; el.dataset.y = y;
       field.appendChild(el);
       items.push(el);
     }
 
     function spawnEnemy() {
-      if (!S.active || S.screen !== 'collect') return;
+      if (!S.active) return;
       const el = document.createElement('div');
       el.className = 'enemy';
-      el.textContent = '🚫';
+      el.textContent = ['🚫','⛔','🔒','🛑'][Math.floor(Math.random()*4)];
       const x = Math.random()*(field.offsetWidth-40)+20;
       const y = Math.random()*(field.offsetHeight-40)+20;
-      el.style.left = x+'px';
-      el.style.top = y+'px';
-      el.dataset.x = x;
-      el.dataset.y = y;
+      el.style.left = x+'px'; el.style.top = y+'px';
+      el.dataset.x = x; el.dataset.y = y;
       field.appendChild(el);
       enemies.push(el);
     }
 
-    // Спавн предметов
-    for (let i=0;i<target+3;i++) spawnItem();
-    for (let i=0;i<4;i++) spawnEnemy();
+    // Начальный спавн
+    for (let i=0;i<target+4;i++) spawnItem();
+    for (let i=0;i<3+Math.floor(S.level/2);i++) spawnEnemy();
+
+    // Периодический спавн
     const spawnTimer = setInterval(()=>{
-      if (Math.random()<0.5) spawnItem(); else spawnEnemy();
-    }, 3000);
+      if (Math.random()<0.6) spawnItem(); else spawnEnemy();
+    }, 2500);
     timers.push(spawnTimer);
 
     // Движение врагов
     const moveTimer = setInterval(()=>{
       enemies.forEach(e=>{
         if (!e.parentNode) return;
-        let ex = parseFloat(e.dataset.x);
-        let ey = parseFloat(e.dataset.y);
-        ex += (Math.random()-0.5)*30;
-        ey += (Math.random()-0.5)*30;
-        ex = Math.max(20, Math.min(field.offsetWidth-20, ex));
-        ey = Math.max(20, Math.min(field.offsetHeight-20, ey));
-        e.dataset.x = ex; e.dataset.y = ey;
-        e.style.left = ex+'px';
-        e.style.top = ey+'px';
+        let ex=parseFloat(e.dataset.x), ey=parseFloat(e.dataset.y);
+        ex+=(Math.random()-0.5)*40;
+        ey+=(Math.random()-0.5)*40;
+        ex=Math.max(15,Math.min(field.offsetWidth-15,ex));
+        ey=Math.max(15,Math.min(field.offsetHeight-15,ey));
+        e.dataset.x=ex; e.dataset.y=ey;
+        e.style.left=ex+'px'; e.style.top=ey+'px';
       });
-    }, 500);
+    }, 400);
     timers.push(moveTimer);
 
-    // Управление мышью/тачем
     function movePlayer(e) {
-      if (!S.active || S.screen !== 'collect') return;
-      const rect = field.getBoundingClientRect();
-      let cx, cy;
-      if (e.touches) {
-        cx = e.touches[0].clientX - rect.left;
-        cy = e.touches[0].clientY - rect.top;
-      } else {
-        cx = e.clientX - rect.left;
-        cy = e.clientY - rect.top;
-      }
-      px = Math.max(20, Math.min(rect.width-20, cx));
-      py = Math.max(20, Math.min(rect.height-20, cy));
-      player.style.left = px+'px';
-      player.style.top = py+'px';
+      if (!S.active) return;
+      const rect=field.getBoundingClientRect();
+      let cx,cy;
+      if(e.touches){ cx=e.touches[0].clientX-rect.left; cy=e.touches[0].clientY-rect.top; }
+      else { cx=e.clientX-rect.left; cy=e.clientY-rect.top; }
+      px=Math.max(18,Math.min(rect.width-18,cx));
+      py=Math.max(18,Math.min(rect.height-18,cy));
+      player.style.left=px+'px'; player.style.top=py+'px';
 
-      // Проверка сбора
-      items.forEach((item, idx) => {
-        if (!item.parentNode) return;
-        const ix = parseFloat(item.dataset.x);
-        const iy = parseFloat(item.dataset.y);
-        const dist = Math.hypot(px-ix, py-iy);
-        if (dist < 35) {
-          item.remove();
-          items.splice(idx,1);
+      // Сбор предметов
+      for(let i=items.length-1;i>=0;i--){
+        const item=items[i];
+        if(!item.parentNode){ items.splice(i,1); continue; }
+        const ix=parseFloat(item.dataset.x), iy=parseFloat(item.dataset.y);
+        if(Math.hypot(px-ix,py-iy)<32){
+          item.remove(); items.splice(i,1);
           collected++;
-          S.freedom = Math.min(100, S.freedom + (100/target));
-          beep(600,'sine',0.08);
+          S.freedom = Math.min(100, S.freedom + (5/target));
+          beep(600,'sine',0.06);
           updateUI();
           $('collectCount').textContent = collected;
-          if (collected >= target) {
-            S.cleared++;
-            updateUI();
+          if(collected>=target){
             clearTimers();
-            startBoss();
+            setTimeout(()=>nextLevel(), 600);
           }
         }
-      });
+      }
 
-      // Проверка столкновения с врагами
-      enemies.forEach(e => {
-        if (!e.parentNode) return;
-        const ex = parseFloat(e.dataset.x);
-        const ey = parseFloat(e.dataset.y);
-        const dist = Math.hypot(px-ex, py-ey);
-        if (dist < 35) {
-          e.remove();
+      // Столкновение с врагами
+      for(let i=enemies.length-1;i>=0;i--){
+        const en=enemies[i];
+        if(!en.parentNode){ enemies.splice(i,1); continue; }
+        const ex=parseFloat(en.dataset.x), ey=parseFloat(en.dataset.y);
+        if(Math.hypot(px-ex,py-ey)<30){
+          en.remove(); enemies.splice(i,1);
           hurt(1);
-          beep(200,'sawtooth',0.15);
+          beep(200,'sawtooth',0.12);
         }
-      });
+      }
     }
 
     field.addEventListener('mousemove', movePlayer);
@@ -679,133 +712,204 @@
     field.addEventListener('touchstart', (e)=>{ e.preventDefault(); movePlayer(e); });
 
     const timer = setInterval(()=>{
-      if (!S.active || S.screen!=='collect') { clearInterval(timer); return; }
+      if (!S.active) { clearInterval(timer); return; }
       time--;
       $('collectTimer').textContent = time;
-      if (time<=0) { clearInterval(timer); hurt(2); if(S.active) startCollect(); }
+      if(time<=0){ clearInterval(timer); hurt(2); if(S.active) startCollect(); }
     }, 1000);
     timers.push(timer);
   }
 
-  // ===== РЕЖИМ 2: DNS-ВЫБОР (9-12 лет) =====
+  // ===== УРОВНИ-DNS (2,5,8,11) =====
   function startDNS() {
     showScreen('dns');
     S.active = true;
-    const container = $('dns-cards');
+    const container = $('dnsCards');
     container.innerHTML = '';
     let correct = 0;
-    const need = S.difficulty==='medium' ? 2 : 3;
-    let time = S.difficulty==='medium' ? 20 : 15;
+    const need = 3 + Math.floor(S.level/4);
+    let time = 24 - Math.floor(S.level/3);
     $('dnsTimer').textContent = time;
+    $('dnsNeed').textContent = need;
+    $('dnsCorrect').textContent = '0';
+    $('dnsTitle').textContent = '📡 УРОВЕНЬ '+S.level+': ВЫБЕРИ DNS';
 
-    const tasks = [
+    const allTasks = [
       { hint: 'Самый быстрый DNS от Google', opts: ['8.8.8.8','1.2.3.4','99.99.99.99','0.0.0.0'], ok: '8.8.8.8' },
-      { hint: 'DNS, который как "все единицы"', opts: ['8.8.4.4','1.1.1.1','2.2.2.2','9.9.9.9'], ok: '1.1.1.1' },
-      { hint: 'Защищённый DNS с шифрованием', opts: ['192.168.0.1','10.0.0.1','9.9.9.9','172.16.0.1'], ok: '9.9.9.9' }
+      { hint: 'DNS, похожий на "все единицы"', opts: ['8.8.4.4','1.1.1.1','2.2.2.2','9.9.9.9'], ok: '1.1.1.1' },
+      { hint: 'Защищённый DNS с шифрованием', opts: ['192.168.0.1','10.0.0.1','9.9.9.9','172.16.0.1'], ok: '9.9.9.9' },
+      { hint: 'Публичный DNS от Cloudflare', opts: ['8.8.8.8','1.1.1.1','208.67.222.222','4.4.4.4'], ok: '1.1.1.1' },
+      { hint: 'Резервный DNS Google', opts: ['8.8.4.4','1.0.0.1','9.9.9.9','8.8.8.8'], ok: '8.8.4.4' },
+      { hint: 'DNS для обхода блокировок', opts: ['10.10.10.10','9.9.9.9','1.2.3.4','192.168.1.1'], ok: '9.9.9.9' }
     ];
-    let tn = 0;
 
-    function show() {
-      if (tn >= tasks.length || correct >= need) {
-        S.cleared++; updateUI(); clearTimers(); startBoss(); return;
+    let taskIndex = 0;
+    const tasks = allTasks.sort(()=>Math.random()-0.5).slice(0, need+2);
+
+    function showTask() {
+      if (correct >= need) {
+        clearTimers();
+        setTimeout(()=>nextLevel(), 600);
+        return;
       }
-      const t = tasks[tn];
-      $('dns-hint').textContent = '💡 «'+t.hint+'»';
+      if (taskIndex >= tasks.length) taskIndex = 0;
+      const t = tasks[taskIndex];
+      $('dnsHint').textContent = '💡 «'+t.hint+'»';
       container.innerHTML = '';
       t.opts.forEach(opt => {
         const card = document.createElement('div');
         card.className = 'card';
         card.textContent = opt;
         card.addEventListener('click', ()=>{
-          if (!S.active || S.screen!=='dns' || card.dataset.done) return;
+          if (!S.active || card.dataset.done) return;
           card.dataset.done='1';
           if (opt===t.ok) {
             card.classList.add('ok');
             correct++;
-            S.freedom = Math.min(100, S.freedom + (100/need));
-            beep(600,'sine',0.1);
+            S.freedom = Math.min(100, S.freedom + (8/need));
+            beep(600,'sine',0.08);
             updateUI();
+            $('dnsCorrect').textContent = correct;
             if (correct>=need) {
-              S.cleared++; updateUI(); clearTimers(); startBoss();
+              clearTimers();
+              setTimeout(()=>nextLevel(), 600);
             } else {
-              tn++;
-              setTimeout(show, 500);
+              taskIndex++;
+              setTimeout(showTask, 500);
             }
           } else {
             card.classList.add('bad');
             hurt(1);
+            beep(200,'sawtooth',0.12);
             setTimeout(()=>{ card.classList.remove('bad'); card.dataset.done=''; }, 400);
           }
         });
         container.appendChild(card);
       });
     }
-    show();
+    showTask();
 
     const timer = setInterval(()=>{
-      if (!S.active || S.screen!=='dns') { clearInterval(timer); return; }
+      if (!S.active) { clearInterval(timer); return; }
       time--; $('dnsTimer').textContent = time;
       if (time<=0) { clearInterval(timer); hurt(2); if(S.active) startDNS(); }
     }, 1000);
     timers.push(timer);
   }
 
-  // ===== РЕЖИМ 3: КЛИКЕР (13+) =====
-  function startClicker() {
-    showScreen('click');
+  // ===== УРОВНИ-КЛЮЧ (3,6,9) =====
+  function startKey() {
+    showScreen('key');
     S.active = true;
-    let clicks = 0;
-    const target = S.difficulty==='hard' ? 30 : 20;
-    let time = S.difficulty==='hard' ? 15 : 12;
-    $('clickTimer').textContent = time;
-    $('clickCount').textContent = '0 / '+target;
-    const zone = $('clickZone');
-    zone.onclick = ()=>{
-      if (!S.active || S.screen!=='click') return;
-      clicks++;
-      S.freedom = Math.min(100, S.freedom + (100/target));
-      beep(800+clicks*15,'square',0.04);
-      updateUI();
-      $('clickCount').textContent = clicks+' / '+target;
-      if (clicks>=target) { S.cleared++; updateUI(); clearTimers(); startBoss(); }
+    const input = $('keyInput');
+    const feedback = $('keyFeedback');
+    input.value = '';
+    feedback.textContent = '';
+    let found = 0;
+    const need = 2 + Math.floor(S.level/5);
+    let time = 28 - Math.floor(S.level/3);
+    $('keyTimer').textContent = time;
+    $('keyNeed').textContent = need;
+    $('keyFound').textContent = '0';
+    $('keyTitle').textContent = '🔑 УРОВЕНЬ '+S.level+': ВВЕДИ КЛЮЧ';
+
+    const keyTasks = [
+      { hint: '«Свобода» на английском (7 букв)', answer: 'freedom' },
+      { hint: '«Интернет» на английском (8 букв)', answer: 'internet' },
+      { hint: '«Хакер» на английском (6 букв)', answer: 'hacker' },
+      { hint: '«Пароль» на английском (8 букв)', answer: 'password' },
+      { hint: '«Шифр» на английском (6 букв)', answer: 'cipher' }
+    ];
+
+    let keyIndex = 0;
+    const keys = keyTasks.sort(()=>Math.random()-0.5).slice(0, need+1);
+
+    function showKeyTask() {
+      if (found >= need) {
+        clearTimers();
+        setTimeout(()=>nextLevel(), 600);
+        return;
+      }
+      if (keyIndex >= keys.length) keyIndex = 0;
+      $('keyHint').textContent = '💡 «'+keys[keyIndex].hint+'»';
+      input.value = '';
+      feedback.textContent = '';
+    }
+    showKeyTask();
+
+    const check = () => {
+      if (!S.active) return;
+      const val = input.value.trim().toLowerCase();
+      if (val === keys[keyIndex].answer) {
+        feedback.textContent = '✅ Правильно!';
+        feedback.style.color = '#0f0';
+        found++;
+        S.freedom = Math.min(100, S.freedom + (10/need));
+        beep(700,'sine',0.1);
+        updateUI();
+        $('keyFound').textContent = found;
+        if (found >= need) {
+          clearTimers();
+          setTimeout(()=>nextLevel(), 700);
+        } else {
+          keyIndex++;
+          setTimeout(showKeyTask, 600);
+        }
+      } else if (val.length >= 3) {
+        feedback.textContent = '❌ Неверно. Попробуй ещё!';
+        feedback.style.color = 'red';
+        hurt(1);
+        beep(200,'sawtooth',0.12);
+        input.value = '';
+      }
     };
+
+    $('btnKey').addEventListener('click', check);
+    input.addEventListener('keypress', (e) => { if (e.key==='Enter') check(); });
+
     const timer = setInterval(()=>{
-      if (!S.active || S.screen!=='click') { clearInterval(timer); return; }
-      time--; $('clickTimer').textContent = time;
-      if (time<=0) { clearInterval(timer); hurt(2); if(S.active) startClicker(); }
+      if (!S.active) { clearInterval(timer); return; }
+      time--; $('keyTimer').textContent = time;
+      if (time<=0) { clearInterval(timer); hurt(2); if(S.active) startKey(); }
     }, 1000);
     timers.push(timer);
   }
 
-  // ===== БОСС (для всех) =====
+  // ===== БОСС (уровень 12) =====
   function startBoss() {
     showScreen('boss');
     S.active = true;
-    S.bossHp = S.difficulty==='hard' ? 5 : 3;
+    S.bossHp = 5 + Math.floor(S.level/3);
     let hpText = '';
     for (let i=0;i<S.bossHp;i++) hpText += '❤️';
     $('bossHp').textContent = hpText;
     const bossEl = $('bossEl');
+
     bossEl.onclick = ()=>{
-      if (!S.active || S.screen!=='boss') return;
+      if (!S.active) return;
       S.bossHp--;
-      beep(300,'sawtooth',0.1);
+      beep(300,'sawtooth',0.08);
       bossEl.style.transform = 'scale(1.3)';
       setTimeout(()=>{ bossEl.style.transform='scale(1)'; }, 100);
       let ht='';
-      for (let i=0;i<(S.difficulty==='hard'?5:3);i++) ht+= i<S.bossHp?'❤️':'🖤';
+      for (let i=0;i<(5+Math.floor(S.level/3));i++) ht+= i<S.bossHp?'❤️':'🖤';
       $('bossHp').textContent = ht;
-      if (S.bossHp<=0) { clearTimers(); endGame(true); }
+      if (S.bossHp<=0) {
+        clearTimers();
+        S.level = 13;
+        endGame(true);
+      }
     };
+
     const atk = setInterval(()=>{
-      if (!S.active || S.screen!=='boss') { clearInterval(atk); return; }
+      if (!S.active) { clearInterval(atk); return; }
       if (Math.random()<0.5) {
         hurt(1);
         const g=$('gameContainer');
         g.style.transform='translateX(3px)';
         setTimeout(()=>{g.style.transform='translateX(-3px)';setTimeout(()=>{g.style.transform='';},50);},50);
       }
-    }, S.difficulty==='hard'?1800:2500);
+    }, 1800);
     timers.push(atk);
   }
 
@@ -830,10 +934,19 @@
   }
   draw();
 
+  // ===== СТАРТ =====
+  $('btnStart').addEventListener('click', ()=>{
+    initAudio();
+    restart();
+    S.level = 1;
+    updateUI();
+    startCollect();
+  });
+
   // ===== ИНИТ =====
   updateUI();
-  showScreen('age');
-  console.log('🎮 Freedrus готов! Выбери возраст.');
+  showScreen('start');
+  console.log('🎮 Freedrus готов! 12 уровней, ~10 минут игры.');
 })();
 </script>
 </body>
